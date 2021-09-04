@@ -1,0 +1,13 @@
+[MAIN]
+# serial | tcp (right now only serial supported)
+mode = "serial"
+
+[DEVICE]
+slave_id = 1
+
+[SERIAL]
+port = "/dev/ttys003"
+baudrate = 9600
+parity = "N"
+bytesize = 8
+stopbits = 1

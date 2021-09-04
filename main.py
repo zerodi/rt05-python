@@ -1,11 +1,10 @@
-import configparser
 import click
+import toml
 from teplocom.client import TeplocomClient
 
 
 def get_client():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+    config = toml.load('config.toml')
     connect_config = config['SERIAL']
     slave_id = config['DEVICE']['slave_id']
 
@@ -28,6 +27,5 @@ def current():
     client.current()
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     cli()
