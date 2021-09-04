@@ -3,6 +3,7 @@ import logging
 
 DEFAULT_TIMEOUT = 10
 
+
 def prep_bytes(byte_str):
     byte_str.reverse()
     return ''.join(byte_str)
@@ -15,6 +16,14 @@ def calc_checksum(packet):
 def format_bytestring(resp):
     response = _decode(resp)
     return '%s' % (_format_data(response.upper()))
+
+
+def int_to_bytes(val: int) -> bytes:
+    return val.to_bytes((val.bit_length() + 7) // 8, byteorder='big')
+
+
+def slave_bytes(slave_id: int) -> bytes:
+    return bytes([slave_id, 0xFF - slave_id])
 
 
 def _decode(resp):

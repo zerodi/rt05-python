@@ -1,0 +1,3 @@
+PING = (0, 0)
+CURRENT = (15, 1)
+HISTORY = (15, 3)
