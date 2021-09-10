@@ -1,13 +1,10 @@
 from datetime import datetime
-from typing import Optional, Tuple
+from typing import Optional
 
 import serial
 
-from teplocom import command_code
-from teplocom import dicts
-from teplocom import utils
-from teplocom.utils import DEFAULT_TIMEOUT
-from teplocom.utils import try_repeat
+from teplocom import command_code, dicts, utils
+from teplocom.utils import DEFAULT_TIMEOUT, try_repeat
 
 START_BYTE = bytes.fromhex('55')
 
@@ -105,7 +102,7 @@ class TeplocomClient:
                 break
         return result
 
-    def _read_response(self, result: bytearray, tlen: bytes) -> Tuple[int, bytearray]:
+    def _read_response(self, result: bytearray, tlen: bytes) -> tuple[int, bytearray]:
         start = 5
         tlen_bytes_len = len(tlen)
         if tlen:

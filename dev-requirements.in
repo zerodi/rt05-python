@@ -3,6 +3,7 @@
 black
 mypy
 jedi
+pre-commit
 
 pyproject-flake8
 flake8-absolute-import

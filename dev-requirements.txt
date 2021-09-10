@@ -11,16 +11,24 @@ attrs==21.2.0
     #   flake8-bugbear
     #   flake8-eradicate
     #   flake8-multiline-containers
+backports.entry-points-selectable==1.1.0
+    # via virtualenv
 black==21.8b0
     # via -r dev-requirements.in
+cfgv==3.3.1
+    # via pre-commit
 click==8.0.1
     # via
     #   -c requirements.txt
     #   black
 cognitive-complexity==1.2.0
     # via flake8-cognitive-complexity
+distlib==0.3.2
+    # via virtualenv
 eradicate==2.0.0
     # via flake8-eradicate
+filelock==3.0.12
+    # via virtualenv
 flake8==3.9.2
     # via
     #   flake8-absolute-import
@@ -85,6 +93,8 @@ flake8-variables-names==0.0.4
     # via -r dev-requirements.in
 flake8-walrus==1.1.0
     # via -r dev-requirements.in
+identify==2.2.14
+    # via pre-commit
 isort==5.9.3
     # via flake8-isort
 jedi==0.18.0
@@ -97,12 +107,18 @@ mypy-extensions==0.4.3
     # via
     #   black
     #   mypy
+nodeenv==1.6.0
+    # via pre-commit
 parso==0.8.2
     # via jedi
 pathspec==0.9.0
     # via black
 platformdirs==2.3.0
-    # via black
+    # via
+    #   black
+    #   virtualenv
+pre-commit==2.15.0
+    # via -r dev-requirements.in
 pycodestyle==2.7.0
     # via
     #   flake8
@@ -112,16 +128,21 @@ pyflakes==2.3.1
     # via flake8
 pyproject-flake8==0.0.1a2
     # via -r dev-requirements.in
+pyyaml==5.4.1
+    # via pre-commit
 regex==2021.8.28
     # via black
 six==1.16.0
-    # via flake8-print
+    # via
+    #   flake8-print
+    #   virtualenv
 testfixtures==6.18.1
     # via flake8-isort
 toml==0.10.2
     # via
     #   -c requirements.txt
     #   mypy
+    #   pre-commit
     #   pyproject-flake8
 tomli==1.2.1
     # via black
@@ -130,6 +151,8 @@ typing-extensions==3.10.0.2
     #   black
     #   flake8-pie
     #   mypy
+virtualenv==20.7.2
+    # via pre-commit
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
