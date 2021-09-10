@@ -1,0 +1,43 @@
+[tool.flake8]
+ignore = 'E501, E265, F811, PT001, DJ05, SIM113, SIM102, E203, VNE003, T001'
+max-line-length = 160
+exclude = '''
+static,
+migrations,
+frontend,
+.git,
+__pycache__
+'''
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+warn_redundant_casts = true
+no_implicit_optional = true
+strict_optional = true
+
+[tool.isort]
+profile = 'google'
+line_length = 159
+
+[tool.black]
+line-length = 159
+target-version = ['py39']
+include = '\.pyi?$'
+skip-string-normalization = true
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | docs
+)/
+'''
