@@ -10,5 +10,3 @@ pyserial==3.5
     # via -r requirements.in
 toml==0.10.2
     # via -r requirements.in
-types-toml==0.1.5
-    # via -r requirements.in

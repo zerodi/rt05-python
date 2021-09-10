@@ -4,6 +4,7 @@ black
 mypy
 jedi
 pre-commit
+types-toml
 
 pyproject-flake8
 flake8-absolute-import

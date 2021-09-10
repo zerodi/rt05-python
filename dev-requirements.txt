@@ -146,6 +146,8 @@ toml==0.10.2
     #   pyproject-flake8
 tomli==1.2.1
     # via black
+types-toml==0.1.5
+    # via -r dev-requirements.in
 typing-extensions==3.10.0.2
     # via
     #   black
