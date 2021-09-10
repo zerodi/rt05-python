@@ -1,9 +1,10 @@
 import click
 import toml
+
 from teplocom.client import TeplocomClient
 
 
-def get_client():
+def get_client() -> TeplocomClient:
     config = toml.load('config.toml')
     connect_config = config['SERIAL']
     slave_id = config['DEVICE']['slave_id']
@@ -12,17 +13,18 @@ def get_client():
 
 
 @click.group()
-def cli():
+def cli() -> None:
     pass
 
+
 @cli.command()
-def ping():
+def ping() -> None:
     client = get_client()
     client.ping()
 
 
 @cli.command()
-def current():
+def current() -> None:
     client = get_client()
     client.current()
 
