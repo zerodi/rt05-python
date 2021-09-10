@@ -6,7 +6,7 @@ mode = "serial"
 slave_id = 1
 
 [SERIAL]
-port = "/dev/ttys003"
+port = "/dev/ttys001"
 baudrate = 9600
 parity = "N"
 bytesize = 8

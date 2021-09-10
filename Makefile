@@ -1,4 +1,4 @@
-PY_FILES=main.py teplocom
+PY_FILES=src
 
 prepare:
 	pip install pip-tools
