@@ -44,6 +44,10 @@ def int_to_bytes(value: int) -> bytes:
     return value.to_bytes((value.bit_length() + 7) // 8, byteorder='big')
 
 
+def bytes_to_int(value: bytes) -> int:
+    return int.from_bytes(value, byteorder='little')
+
+
 def slave_bytes(slave_id: int) -> bytes:
     return bytes([slave_id, 0xFF - slave_id])
 

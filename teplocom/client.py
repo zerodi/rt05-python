@@ -23,7 +23,7 @@ class TeplocomClient:
             dsrdtr=True,
         )
 
-    def ping(self) -> Optional[str]:
+    def ping(self) -> bytearray:
         self._dispose()
         return self._make_request(command=command_code.PING, body='', timeout=DEFAULT_TIMEOUT)
 
@@ -44,13 +44,13 @@ class TeplocomClient:
         return None
 
     @try_repeat(times=5)
-    def _make_request(self, command: tuple, body: str, timeout: int, tlen: int = 0) -> Optional[str]:
+    def _make_request(self, command: tuple, body: str, timeout: int, tlen: int = 0) -> Optional[bytearray]:
         self._dispose()
         packet = self._build_request_body(command, body, tlen)
         self.logger.info(self.client.write(packet))
         return self._wait_response(timeout=timeout, tlen=utils.int_to_bytes(tlen))
 
-    def _wait_response(self, tlen: bytes, timeout: int = 10) -> Optional[str]:
+    def _wait_response(self, tlen: bytes, timeout: int = 10) -> Optional[bytearray]:
         result: bytearray = self._read_bytes(timeout)
         self.client.close()
         self.logger.info(result)
@@ -58,7 +58,8 @@ class TeplocomClient:
             length, response = self._read_response(result, tlen)
             if len(response) == length:
                 self.logger.info(response)
-                return utils.format_bytestring(response)
+                self.logger.info(utils.format_bytestring(response))
+                return response
             else:
                 self.logger.error('Invalid Response Length')
                 return None

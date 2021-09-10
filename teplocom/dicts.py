@@ -1,4 +1,4 @@
-from typing import Optional, TypedDict
+from typing import TypedDict
 
 from teplocom import utils
 
@@ -9,10 +9,10 @@ class Param(TypedDict):
     type: type
 
 
-"""
-T Текущая высчитывается, как (temp_11 + temp_2) / 2
-T Задание высчитывается, как (temp_o + temp_p) / 2 - temp_const
-"""
+###
+# T Текущая высчитывается, как (temp_11 + temp_2) / 2
+# T Задание высчитывается, как (temp_o + temp_p) / 2 - temp_const
+###
 current = dict(
     {
         # Секунда
@@ -57,15 +57,14 @@ current = dict(
 )
 
 
-def read_int(body: list[str], address: int, size: int) -> int:
-    return int(body[address], 10) if size == 1 else int(utils.prep_bytes(body[address : address + size]), 16)
+def read_int(body: bytearray, address: int, size: int) -> int:
+    return utils.bytes_to_int(body[address : address + size])
 
 
-def transform_current_response(body: Optional[str]) -> dict:
+def transform_current_response(body: bytearray) -> dict:
     result = dict()
     if body:
-        body_array = body.split(' ')
         for key, value in current.items():
             if value['type'] == int:
-                result[key] = read_int(body_array, int(value['addr'], 16), value['size'])
+                result[key] = read_int(body, int(value['addr'], 16), value['size'])
     return result
