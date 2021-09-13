@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from teplocom import utils
+from tesmart import utils
 
 
 class Param(TypedDict):

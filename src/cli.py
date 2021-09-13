@@ -6,7 +6,7 @@ from typing import Callable, Optional
 import click
 import toml
 
-from teplocom.client import TeplocomClient
+from tesmart.client import TesmartClient
 
 
 def read_config_from_file(opts: dict) -> tuple[dict, int]:
@@ -32,12 +32,12 @@ def read_config_from_opts(opts: dict) -> tuple[dict, int]:
     return connect_config, slave_id
 
 
-def get_client(opts: dict) -> Optional[TeplocomClient]:
+def get_client(opts: dict) -> Optional[TesmartClient]:
     if opts['port'] is None:
         connect_config, slave_id = read_config_from_file(opts)
     else:
         connect_config, slave_id = read_config_from_opts(opts)
-    return TeplocomClient(connect_config, slave_id)
+    return TesmartClient(connect_config, slave_id)
 
 
 def common_params(func: Callable) -> Callable:

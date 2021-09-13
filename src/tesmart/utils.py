@@ -26,6 +26,12 @@ def try_repeat(times: int = 5) -> Callable:
     return real_repeat
 
 
+def validate_response(response: bytearray) -> bool:
+    _response = response[:-1]
+    _checksum = response[-1:]
+    return calc_checksum(_response) == _checksum
+
+
 def prep_bytes(byte_str: list[str]) -> str:
     byte_str.reverse()
     return ''.join(byte_str)
@@ -72,7 +78,7 @@ class ConsoleHandler(logging.Handler):
 
 
 def create_logger(level: int = logging.DEBUG) -> logging.Logger:
-    logger = logging.getLogger('teplocom')
+    logger = logging.getLogger('tesmart')
     logger.setLevel(level)
     formatter = logging.Formatter('%(asctime)s\t%(levelname)s\t%(module)s.%(funcName)s\t%(threadName)s\t%(message)s')
     log_handler = ConsoleHandler()

@@ -3,13 +3,13 @@ from typing import Optional
 
 import serial
 
-from teplocom import command_code, dicts, utils
-from teplocom.utils import DEFAULT_TIMEOUT, try_repeat
+from tesmart import command_code, dicts, utils
+from tesmart.utils import DEFAULT_TIMEOUT, try_repeat
 
 START_BYTE = bytes.fromhex('55')
 
 
-class TeplocomClient:
+class TesmartClient:
     def __init__(self, config: dict, slave_id: int):
         self.slave_id = slave_id
         self.logger = utils.create_logger()
@@ -54,7 +54,7 @@ class TeplocomClient:
         result: bytearray = self._read_bytes(timeout)
         self.client.close()
         self.logger.info(result)
-        if self._validate_response(result):
+        if utils.validate_response(result):
             length, response = self._read_response(result, tlen)
             if len(response) == length:
                 self.logger.info(response)
@@ -113,11 +113,6 @@ class TeplocomClient:
             length = int.from_bytes(result[start : start + 1], byteorder='big')
             response = result[start + 1 : -1]
         return length, response
-
-    def _validate_response(self, response: bytearray) -> bool:
-        _response = response[:-1]
-        _checksum = response[-1:]
-        return utils.calc_checksum(_response) == _checksum
 
     def _init_request(self) -> bytearray:
         packet = bytearray()
