@@ -27,24 +27,34 @@ class TesmartClient:
         self._dispose()
         return self._make_request(command=command_code.PING, body='', timeout=DEFAULT_TIMEOUT)
 
-    def current(self) -> dict:
+    def current(self) -> Optional[dict]:
         self._dispose()
         response = self._make_request(command=command_code.CURRENT, body='00 00 00 00 07 A3', timeout=DEFAULT_TIMEOUT)
-        result = dicts.transform_current_response(response)
-        self.logger.info(result)
-        return result
+        if response:
+            result = dicts.transform_current_response(response)
+            self.logger.info(result)
+            return result
+        return None
 
-    def history(self) -> None:
+    def history(self) -> Optional[dict]:
         self._dispose()
-        self._make_request(command=command_code.HISTORY, body='00 00 00 00 00 00 80 00', timeout=DEFAULT_TIMEOUT)
+        response = self._make_request(command=command_code.HISTORY, body='00 00 00 00 00 00 80 00', timeout=DEFAULT_TIMEOUT)
+        if response:
+            result = response
+            self.logger.info(result)
+            return {}
         return None
 
     @try_repeat(times=5)
     def _make_request(self, command: tuple, body: str, timeout: int) -> Optional[bytearray]:
         self._dispose()
-        packet = self._build_request_body(command, body)
-        self.logger.info(self.client.write(packet))
-        return self._wait_response(timeout=timeout)
+        try:
+            packet = self._build_request_body(command, body)
+            self.logger.info(self.client.write(packet))
+            return self._wait_response(timeout=timeout)
+        except KeyboardInterrupt:
+            self.client.close()
+            return None
 
     def _wait_response(self, timeout: int = 10) -> Optional[bytearray]:
         result: bytearray = self._read_bytes(timeout)
