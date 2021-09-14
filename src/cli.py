@@ -50,10 +50,10 @@ def current(**kwargs: dict) -> None:
 @cli.command()
 @common_params
 def history(**kwargs: dict) -> None:
-    """Get current data from device"""
+    """Get history data from device"""
     client = get_client(kwargs)
     if client:
-        client.current()
+        client.history()
 
 
 if __name__ == '__main__':
