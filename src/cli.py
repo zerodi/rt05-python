@@ -47,5 +47,14 @@ def current(**kwargs: dict) -> None:
         client.current()
 
 
+@cli.command()
+@common_params
+def history(**kwargs: dict) -> None:
+    """Get current data from device"""
+    client = get_client(kwargs)
+    if client:
+        client.current()
+
+
 if __name__ == '__main__':
     cli()

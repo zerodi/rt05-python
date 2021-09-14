@@ -34,10 +34,6 @@ class TesmartClient:
         self.logger.info(result)
         return result
 
-    """
-    TODO: This method in progress
-    """
-
     def history(self) -> None:
         self._dispose()
         self._make_request(command=command_code.HISTORY, body='00 00 00 00 00 00 80 00', timeout=DEFAULT_TIMEOUT)
@@ -70,6 +66,8 @@ class TesmartClient:
             self._build_ping_request(packet)
         elif command == command_code.CURRENT:
             self._build_current_request(packet, body)
+        elif command == command_code.HISTORY:
+            self._build_current_request(packet, body)
         packet.extend(utils.calc_checksum(packet))
         self.logger.info(utils.format_bytestring(packet))
         return packet
@@ -78,6 +76,12 @@ class TesmartClient:
         packet.extend(b'\x00')
 
     def _build_current_request(self, packet: bytearray, body: str) -> None:
+        packet_body = bytearray.fromhex(body)
+        packet_body_len = utils.int_to_bytes(len(packet_body))
+        packet.extend(packet_body_len)
+        packet.extend(packet_body)
+
+    def _build_history_request(self, packet: bytearray, body: str) -> None:
         packet_body = bytearray.fromhex(body)
         packet_body_len = utils.int_to_bytes(len(packet_body))
         packet.extend(packet_body_len)
