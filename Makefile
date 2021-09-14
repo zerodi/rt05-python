@@ -1,4 +1,4 @@
-PY_FILES=src
+PY_FILES=src test
 
 prepare:
 	pip install pip-tools
