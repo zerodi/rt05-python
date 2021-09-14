@@ -29,7 +29,7 @@ class TesmartClient:
 
     def current(self) -> dict:
         self._dispose()
-        response = self._make_request(command=command_code.CURRENT, body='00 00 00 00', tlen=1955, timeout=DEFAULT_TIMEOUT)
+        response = self._make_request(command=command_code.CURRENT, body='00 00 00 00 07 A3', timeout=DEFAULT_TIMEOUT)
         result = dicts.transform_current_response(response)
         self.logger.info(result)
         return result
@@ -44,36 +44,32 @@ class TesmartClient:
         return None
 
     @try_repeat(times=5)
-    def _make_request(self, command: tuple, body: str, timeout: int, tlen: int = 0) -> Optional[bytearray]:
+    def _make_request(self, command: tuple, body: str, timeout: int) -> Optional[bytearray]:
         self._dispose()
-        packet = self._build_request_body(command, body, tlen)
+        packet = self._build_request_body(command, body)
         self.logger.info(self.client.write(packet))
-        return self._wait_response(timeout=timeout, tlen=utils.int_to_bytes(tlen))
+        return self._wait_response(timeout=timeout)
 
-    def _wait_response(self, tlen: bytes, timeout: int = 10) -> Optional[bytearray]:
+    def _wait_response(self, timeout: int = 10) -> Optional[bytearray]:
         result: bytearray = self._read_bytes(timeout)
         self.client.close()
         self.logger.info(result)
         if utils.validate_response(result):
-            length, response = self._read_response(result, tlen)
-            if len(response) == length:
-                self.logger.info(response)
-                self.logger.info(utils.format_bytestring(response))
-                return response
-            else:
-                self.logger.error('Invalid Response Length')
-                return None
+            length, response = self._read_response(result)
+            self.logger.info(response)
+            self.logger.info(utils.format_bytestring(response))
+            return response
         else:
             self.logger.error('Invalid Checksum')
             return None
 
-    def _build_request_body(self, command: tuple, body: str, tlen: int) -> bytearray:
+    def _build_request_body(self, command: tuple, body: str) -> bytearray:
         packet = self._init_request()
         packet.extend(bytes(command))
         if command == command_code.PING:
             self._build_ping_request(packet)
         elif command == command_code.CURRENT:
-            self._build_current_request(packet, body, tlen)
+            self._build_current_request(packet, body)
         packet.extend(utils.calc_checksum(packet))
         self.logger.info(utils.format_bytestring(packet))
         return packet
@@ -81,9 +77,8 @@ class TesmartClient:
     def _build_ping_request(self, packet: bytearray) -> None:
         packet.extend(b'\x00')
 
-    def _build_current_request(self, packet: bytearray, body: str, tlen: int) -> None:
+    def _build_current_request(self, packet: bytearray, body: str) -> None:
         packet_body = bytearray.fromhex(body)
-        packet_body.extend(utils.int_to_bytes(tlen))
         packet_body_len = utils.int_to_bytes(len(packet_body))
         packet.extend(packet_body_len)
         packet.extend(packet_body)
@@ -103,15 +98,10 @@ class TesmartClient:
                 break
         return result
 
-    def _read_response(self, result: bytearray, tlen: bytes) -> tuple[int, bytearray]:
+    def _read_response(self, result: bytearray) -> tuple[int, bytearray]:
         start = 5
-        tlen_bytes_len = len(tlen)
-        if tlen:
-            length = int.from_bytes(result[start : start + tlen_bytes_len], byteorder='big')
-            response = result[start + tlen_bytes_len : -1]
-        else:
-            length = int.from_bytes(result[start : start + 1], byteorder='big')
-            response = result[start + 1 : -1]
+        length = utils.bytes_to_int(result[start : start + 1])
+        response = result[start + 1 : -1]
         return length, response
 
     def _init_request(self) -> bytearray:

@@ -47,7 +47,7 @@ def format_bytestring(response: bytearray) -> str:
 
 
 def int_to_bytes(value: int) -> bytes:
-    return value.to_bytes((value.bit_length() + 7) // 8, byteorder='big')
+    return value.to_bytes((value.bit_length() + 7) // 8, byteorder='little')
 
 
 def bytes_to_int(value: bytes) -> int:
