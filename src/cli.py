@@ -4,6 +4,7 @@ from typing import Callable
 import click
 
 from client import get_client
+from server import run_server
 
 
 def common_params(func: Callable) -> Callable:
@@ -54,6 +55,14 @@ def history(**kwargs: dict) -> None:
     client = get_client(kwargs)
     if client:
         client.history()
+
+
+@cli.command()
+@common_params
+def server(**kwargs: dict) -> None:
+    client = get_client(kwargs)
+    if client:
+        run_server(client)
 
 
 if __name__ == '__main__':

@@ -23,9 +23,14 @@ class TesmartClient:
             dsrdtr=True,
         )
 
-    def ping(self) -> bytearray:
+    def ping(self) -> Optional[str]:
         self._dispose()
-        return self._make_request(command=command_code.PING, body='', timeout=DEFAULT_TIMEOUT)
+        response = self._make_request(command=command_code.PING, body='', timeout=DEFAULT_TIMEOUT)
+        if response:
+            result = response.decode(encoding='utf-8')
+            self.logger.info(result)
+            return result
+        return None
 
     def current(self) -> Optional[dict]:
         self._dispose()
