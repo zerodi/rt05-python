@@ -29,7 +29,7 @@ eradicate==2.0.0
     # via flake8-eradicate
 filelock==3.0.12
     # via virtualenv
-flake8==3.9.2
+flake8==4.0.1
     # via
     #   flake8-absolute-import
     #   flake8-bugbear
