@@ -128,7 +128,7 @@ pyflakes==2.3.1
     # via flake8
 pyproject-flake8==0.0.1a2
     # via -r dev-requirements.in
-pyyaml==5.4.1
+pyyaml==6.0
     # via pre-commit
 regex==2021.8.28
     # via black
