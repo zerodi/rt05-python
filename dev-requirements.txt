@@ -136,7 +136,7 @@ six==1.16.0
     # via
     #   flake8-print
     #   virtualenv
-testfixtures==6.18.1
+testfixtures==6.18.5
     # via flake8-isort
 toml==0.10.2
     # via
