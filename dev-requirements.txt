@@ -119,7 +119,7 @@ platformdirs==2.3.0
     #   virtualenv
 pre-commit==2.15.0
     # via -r dev-requirements.in
-pycodestyle==2.7.0
+pycodestyle==2.11.1
     # via
     #   flake8
     #   flake8-print
