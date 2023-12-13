@@ -23,7 +23,7 @@ click==8.0.1
     #   black
 cognitive-complexity==1.2.0
     # via flake8-cognitive-complexity
-distlib==0.3.2
+distlib==0.3.8
     # via virtualenv
 eradicate==2.0.0
     # via flake8-eradicate
