@@ -27,7 +27,7 @@ distlib==0.3.2
     # via virtualenv
 eradicate==2.0.0
     # via flake8-eradicate
-filelock==3.0.12
+filelock==3.13.3
     # via virtualenv
 flake8==3.9.2
     # via
